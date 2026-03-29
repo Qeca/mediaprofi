@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>МедиаПрофи — Контент-план</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f7;color:#1a1a2e;min-height:100vh;}
+
+/* ── NAV ── */
+nav{background:#1a1f36;display:flex;align-items:center;padding:0 28px;height:54px;gap:0;}
+.logo{font-size:18px;font-weight:800;color:#7c9ef8;letter-spacing:.5px;margin-right:36px;}
+.nav-btn{background:none;border:none;color:#aab;font-size:13.5px;cursor:pointer;padding:0 14px;height:54px;border-bottom:2px solid transparent;transition:.15s;}
+.nav-btn:hover{color:#fff;}
+.nav-btn.active{color:#fff;border-bottom-color:#7c9ef8;}
+
+/* ── LAYOUT ── */
+.page{display:none;padding:28px 32px;max-width:1200px;margin:0 auto;}
+.page.on{display:block;}
+.ph{font-size:20px;font-weight:700;margin-bottom:4px;}
+.ps{color:#888;font-size:13px;margin-bottom:24px;}
+
+/* ── STAT CARDS ── */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px;}
+.card{background:#fff;border-radius:12px;padding:18px 22px;box-shadow:0 1px 4px #0001;}
+.cl{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.cv{font-size:26px;font-weight:700;}
+.cv.blue{color:#5a80f0;} .cv.green{color:#27ae60;} .cv.orange{color:#e67e22;} .cv.red{color:#e74c3c;}
+
+/* ── SECTION BOX ── */
+.box{background:#fff;border-radius:12px;padding:22px;box-shadow:0 1px 4px #0001;margin-bottom:20px;}
+.bh{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.bt{font-size:14px;font-weight:700;}
+
+/* ── FILTERS ── */
+.filters{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
+input[type=text],select{padding:7px 12px;border:1.5px solid #dde;border-radius:8px;font-size:13px;font-family:inherit;background:#fff;}
+input[type=text]:focus,select:focus{outline:none;border-color:#7c9ef8;}
+input[type=text]{width:210px;}
+
+/* ── TABLE ── */
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{text-align:left;padding:9px 13px;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.4px;border-bottom:1.5px solid #f0f2f7;}
+td{padding:11px 13px;border-bottom:1px solid #f5f5f8;vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fafbff;}
+
+/* ── BADGES ── */
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.b-new{background:#e8f0fd;color:#2355b8;} .b-active{background:#eafaf1;color:#1e8449;}
+.b-pause{background:#fef9e7;color:#b7770d;} .b-draft{background:#f5f5f5;color:#777;}
+.b-review{background:#fef9e7;color:#b7770d;} .b-pub{background:#eafaf1;color:#1e8449;}
+.b-sched{background:#e8f0fd;color:#2355b8;}
+
+/* ── BUTTONS ── */
+.btn{display:inline-block;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:.13s;}
+.btn-p{background:#7c9ef8;color:#fff;} .btn-p:hover{background:#5a80f0;}
+.btn-o{background:#fff;border:1.5px solid #dde;color:#555;} .btn-o:hover{border-color:#7c9ef8;color:#5a80f0;}
+.btn-sm{padding:5px 12px;font-size:12px;border-radius:6px;}
+.btn-g{background:#27ae60;color:#fff;} .btn-g:hover{background:#1e8449;}
+.btn-r{background:#fff;border:1.5px solid #e74c3c;color:#e74c3c;} .btn-r:hover{background:#fdf0f0;}
+
+/* ── KANBAN ── */
+.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.kcol{background:#f4f6fb;border-radius:12px;padding:14px;}
+.kct{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#888;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
+.kcard{background:#fff;border-radius:10px;padding:13px;margin-bottom:10px;box-shadow:0 1px 3px #0001;font-size:13px;}
+.kcardtitle{font-weight:600;margin-bottom:5px;line-height:1.35;}
+.kcardmeta{color:#999;font-size:11.5px;}
+.ktag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:700;margin-top:6px;}
+.tig{background:#fde8f5;color:#a0338a;} .tvk{background:#e8f0fd;color:#2355b8;}
+.ttg{background:#e8f7fd;color:#0088cc;} .tyt{background:#fde8e8;color:#cc0000;}
+.kcard-actions{display:flex;gap:6px;margin-top:10px;}
+
+/* ── AVATAR ── */
+.av{width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;margin-right:8px;flex-shrink:0;}
+.av1{background:#7c9ef8;} .av2{background:#27ae60;} .av3{background:#e67e22;} .av4{background:#e74c3c;} .av5{background:#9b59b6;}
+.flex-c{display:flex;align-items:center;}
+
+/* ── MODAL ── */
+.overlay{display:none;position:fixed;inset:0;background:#0007;z-index:100;align-items:center;justify-content:center;}
+.overlay.on{display:flex;}
+.modal{background:#fff;border-radius:16px;padding:30px;width:460px;max-width:95vw;box-shadow:0 12px 48px #0003;}
+.modal-title{font-size:16px;font-weight:800;margin-bottom:20px;}
+.fr{margin-bottom:14px;}
+.fl{display:block;font-size:11px;color:#999;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;}
+.fi,.fs,.fta{width:100%;padding:9px 12px;border:1.5px solid #dde;border-radius:8px;font-size:13.5px;font-family:inherit;}
+.fi:focus,.fs:focus,.fta:focus{outline:none;border-color:#7c9ef8;}
+.fta{resize:vertical;min-height:72px;}
+.mact{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;}
+
+/* ── CLIENT FORM PAGE ── */
+.client-form-wrap{max-width:580px;}
+.step-bar{display:flex;gap:0;margin-bottom:28px;}
+.step{flex:1;text-align:center;padding:10px 0;font-size:12px;font-weight:700;color:#bbb;border-bottom:3px solid #eee;transition:.2s;}
+.step.done{color:#7c9ef8;border-bottom-color:#7c9ef8;}
+.step.active{color:#1a1f36;border-bottom-color:#7c9ef8;}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;background:#27ae60;color:#fff;padding:13px 22px;border-radius:10px;font-size:13.5px;font-weight:700;box-shadow:0 4px 20px #0003;z-index:999;display:none;}
+.toast.on{display:block;animation:fin .3s;}
+@keyframes fin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.toast.err{background:#e74c3c;}
+
+/* ── FORM SUCCESS ── */
+.success-banner{background:#eafaf1;border:1.5px solid #27ae60;border-radius:10px;padding:14px 18px;font-size:13.5px;color:#1e8449;font-weight:600;margin-bottom:16px;display:none;}
+.success-banner.on{display:block;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">МедиаПрофи</div>
+  <button class="nav-btn active" onclick="go('dash')">Главная</button>
+  <button class="nav-btn" onclick="go('clients')">Клиенты</button>
+  <button class="nav-btn" onclick="go('content')">Контент-план</button>
+  <button class="nav-btn" onclick="go('newpost')">Новая заявка</button>
+  <button class="nav-btn" onclick="go('calendar')">Календарь</button>
+</nav>
+
+<!-- ═══════════════ DASHBOARD ═══════════════ -->
+<div class="page on" id="p-dash">
+  <div class="ph">Панель управления</div>
+  <div class="ps">МедиаПрофи · апрель 2025</div>
+
+  <div class="cards">
+    <div class="card"><div class="cl">Активных клиентов</div><div class="cv blue" id="stat-clients">4</div></div>
+    <div class="card"><div class="cl">Постов в месяц</div><div class="cv green" id="stat-posts">10</div></div>
+    <div class="card"><div class="cl">На согласовании</div><div class="cv orange" id="stat-review">3</div></div>
+    <div class="card"><div class="cl">Опубликовано</div><div class="cv" id="stat-pub">3</div></div>
+  </div>
+
+  <div class="box">
+    <div class="bh"><div class="bt">Ближайшие публикации</div><button class="btn btn-p btn-sm" onclick="go('content')">Все задачи →</button></div>
+    <table>
+      <thead><tr><th>Клиент</th><th>Площадка</th><th>Тема</th><th>Дата</th><th>Статус</th></tr></thead>
+      <tbody id="dash-posts"></tbody>
+    </table>
+  </div>
+
+  <div class="box">
+    <div class="bh"><div class="bt">Клиенты</div><button class="btn btn-p btn-sm" onclick="go('clients')">Все →</button></div>
+    <table>
+      <thead><tr><th>Клиент</th><th>Менеджер</th><th>Постов/мес</th><th>Статус</th></tr></thead>
+      <tbody id="dash-clients"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════ CLIENTS ═══════════════ -->
+<div class="page" id="p-clients">
+  <div class="ph">Клиенты</div>
+  <div class="ps">Управление клиентской базой</div>
+  <div class="filters">
+    <input type="text" placeholder="🔍 Поиск..." oninput="filterClients(this.value)" id="cl-search"/>
+    <select onchange="filterClientsStatus(this.value)">
+      <option value="">Все статусы</option>
+      <option>Активен</option><option>Пауза</option><option>Новый</option>
+    </select>
+    <button class="btn btn-p" onclick="showOverlay('ov-client')">+ Добавить клиента</button>
+  </div>
+  <div class="box">
+    <table>
+      <thead><tr><th>Клиент</th><th>Email</th><th>Менеджер</th><th>Площадки</th><th>Бюджет</th><th>Статус</th><th></th></tr></thead>
+      <tbody id="clients-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════ CONTENT PLAN ═══════════════ -->
+<div class="page" id="p-content">
+  <div class="ph">Контент-план</div>
+  <div class="ps">Управление публикациями по этапам</div>
+  <div class="filters">
+    <select onchange="filterKanban('client', this.value)" id="kf-client">
+      <option value="">Все клиенты</option>
+    </select>
+    <select onchange="filterKanban('platform', this.value)">
+      <option value="">Все площадки</option>
+      <option>Instagram</option><option>VK</option><option>Telegram</option><option>YouTube</option>
+    </select>
+    <button class="btn btn-p" onclick="go('newpost')">+ Новая заявка</button>
+  </div>
+  <div class="kanban">
+    <div class="kcol"><div class="kct">Черновик <span id="k-cnt-draft" class="cv blue" style="font-size:14px">0</span></div><div id="k-draft"></div></div>
+    <div class="kcol"><div class="kct">На согласовании <span id="k-cnt-review" class="cv orange" style="font-size:14px">0</span></div><div id="k-review"></div></div>
+    <div class="kcol"><div class="kct">Запланировано <span id="k-cnt-sched" class="cv blue" style="font-size:14px">0</span></div><div id="k-sched"></div></div>
+    <div class="kcol"><div class="kct">Опубликовано <span id="k-cnt-pub" class="cv green" style="font-size:14px">0</span></div><div id="k-pub"></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════ NEW POST FORM ═══════════════ -->
+<div class="page" id="p-newpost">
+  <div class="ph">Новая заявка на публикацию</div>
+  <div class="ps">Заполните форму — пост появится в контент-плане со статусом «Черновик»</div>
+
+  <div class="client-form-wrap">
+    <div class="step-bar">
+      <div class="step active" id="st1">1. Клиент и тема</div>
+      <div class="step" id="st2">2. Содержание</div>
+      <div class="step" id="st3">3. Готово</div>
+    </div>
+
+    <div class="success-banner on" id="form-success" style="display:none">
+      ✓ Пост успешно добавлен в контент-план! <a href="#" onclick="go('content');return false;" style="color:#1e8449;margin-left:8px;">Открыть контент-план →</a>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="box" id="form-step1">
+      <div class="fr"><label class="fl">Клиент</label>
+        <select class="fs" id="f-client"><option value="">— выберите клиента —</option></select>
+      </div>
+      <div class="fr"><label class="fl">Площадка</label>
+        <select class="fs" id="f-platform">
+          <option value="">— выберите площадку —</option>
+          <option>Instagram</option><option>VK</option><option>Telegram</option><option>YouTube</option>
+        </select>
+      </div>
+      <div class="fr"><label class="fl">Тема публикации</label>
+        <input class="fi" id="f-title" type="text" placeholder="Например: Весенняя акция — скидка 20%"/>
+      </div>
+      <div class="fr"><label class="fl">Дата публикации</label>
+        <input class="fi" id="f-date" type="date"/>
+      </div>
+      <div class="mact"><button class="btn btn-p" onclick="nextStep()">Далее →</button></div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="box" id="form-step2" style="display:none">
+      <div class="fr"><label class="fl">Текст поста</label>
+        <textarea class="fta" id="f-text" placeholder="Введите текст публикации..." style="min-height:120px"></textarea>
+      </div>
+      <div class="fr"><label class="fl">Ссылка на материалы (необязательно)</label>
+        <input class="fi" id="f-link" type="url" placeholder="https://drive.google.com/..."/>
+      </div>
+      <div class="fr"><label class="fl">Ответственный SMM-специалист</label>
+        <select class="fs" id="f-smm">
+          <option>Смирнова К.</option><option>Петров Д.</option><option>Козлова М.</option>
+        </select>
+      </div>
+      <div class="mact">
+        <button class="btn btn-o" onclick="prevStep()">← Назад</button>
+        <button class="btn btn-p" onclick="submitPost()">Добавить в план ✓</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ CALENDAR ═══════════════ -->
+<div class="page" id="p-calendar">
+  <div class="ph">Календарь публикаций</div>
+  <div class="ps">Апрель 2025</div>
+  <div class="box">
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;" id="cal-grid"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ OVERLAYS ═══════════════ -->
+<!-- Add client -->
+<div class="overlay" id="ov-client">
+  <div class="modal">
+    <div class="modal-title">Добавить клиента</div>
+    <div class="fr"><label class="fl">Название компании</label><input class="fi" id="nc-name" placeholder="Название"/></div>
+    <div class="fr"><label class="fl">Email</label><input class="fi" id="nc-email" type="email" placeholder="email@company.ru"/></div>
+    <div class="fr"><label class="fl">Менеджер</label>
+      <select class="fs" id="nc-mgr"><option>Смирнова К.</option><option>Петров Д.</option><option>Козлова М.</option></select>
+    </div>
+    <div class="fr"><label class="fl">Площадки</label>
+      <input class="fi" id="nc-pl" placeholder="Instagram, VK..."/>
+    </div>
+    <div class="fr"><label class="fl">Бюджет/мес (₽)</label><input class="fi" id="nc-budget" type="number" placeholder="30000"/></div>
+    <div class="mact">
+      <button class="btn btn-o" onclick="hideOverlay('ov-client')">Отмена</button>
+      <button class="btn btn-p" onclick="saveClient()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Change status -->
+<div class="overlay" id="ov-status">
+  <div class="modal">
+    <div class="modal-title">Изменить статус публикации</div>
+    <div class="fr"><label class="fl">Новый статус</label>
+      <select class="fs" id="new-status">
+        <option value="draft">Черновик</option>
+        <option value="review">На согласовании</option>
+        <option value="sched">Запланировано</option>
+        <option value="pub">Опубликовано</option>
+      </select>
+    </div>
+    <div class="mact">
+      <button class="btn btn-o" onclick="hideOverlay('ov-status')">Отмена</button>
+      <button class="btn btn-p" onclick="applyStatus()">Применить</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── DATA ───
+let clients = [
+  {id:1, name:'Аромат Кофе',   email:'aroma@coffee.ru',    mgr:'Смирнова К.', platforms:'Instagram, VK',      budget:'45 000 ₽', status:'Активен', av:'av1', letter:'А'},
+  {id:2, name:'Гринвич Отель', email:'info@greenwich.ru',  mgr:'Петров Д.',   platforms:'VK, Telegram',       budget:'32 000 ₽', status:'Активен', av:'av2', letter:'Г'},
+  {id:3, name:'СпортЛайн',     email:'sport@line.ru',      mgr:'Козлова М.',  platforms:'Instagram, YouTube', budget:'58 000 ₽', status:'Активен', av:'av3', letter:'С'},
+  {id:4, name:'БиоФрут',       email:'bio@frut.ru',        mgr:'Смирнова К.', platforms:'Telegram, YouTube',  budget:'28 000 ₽', status:'Пауза',   av:'av4', letter:'Б'},
+];
+
+let posts = [
+  {id:1, client:'Аромат Кофе',   platform:'Instagram', title:'Новинки весеннего меню',         date:'02.04.2025', status:'review', smm:'Смирнова К.'},
+  {id:2, client:'Гринвич Отель', platform:'VK',        title:'Акция на апрельские праздники',  date:'03.04.2025', status:'draft',  smm:'Петров Д.'},
+  {id:3, client:'СпортЛайн',     platform:'Telegram',  title:'5 упражнений для спины',         date:'04.04.2025', status:'pub',    smm:'Козлова М.'},
+  {id:4, client:'БиоФрут',       platform:'YouTube',   title:'Обзор органических продуктов',   date:'05.04.2025', status:'review', smm:'Смирнова К.'},
+  {id:5, client:'Аромат Кофе',   platform:'VK',        title:'10 советов по уходу за кожей',   date:'08.04.2025', status:'review', smm:'Смирнова К.'},
+  {id:6, client:'БиоФрут',       platform:'Telegram',  title:'Рецепт фруктового смузи',        date:'12.04.2025', status:'sched',  smm:'Петров Д.'},
+  {id:7, client:'СпортЛайн',     platform:'YouTube',   title:'Утренняя тренировка дома',       date:'14.04.2025', status:'sched',  smm:'Козлова М.'},
+  {id:8, client:'Гринвич Отель', platform:'Telegram',  title:'Бронирование номера онлайн',     date:'01.04.2025', status:'pub',    smm:'Петров Д.'},
+  {id:9, client:'Аромат Кофе',   platform:'Instagram', title:'История бренда кофе',            date:'28.03.2025', status:'pub',    smm:'Смирнова К.'},
+  {id:10,client:'СпортЛайн',     platform:'Instagram', title:'Летняя коллекция',               date:'10.04.2025', status:'draft',  smm:'Козлова М.'},
+];
+
+let editingPostId = null;
+let formStep = 1;
+
+// ─── HELPERS ───
+const avColors = ['av1','av2','av3','av4','av5'];
+const statusLabel = {draft:'Черновик', review:'На согласовании', sched:'Запланировано', pub:'Опубликовано'};
+const statusBadge = {draft:'b-draft', review:'b-review', sched:'b-sched', pub:'b-pub'};
+const platformTag  = {Instagram:'tig', VK:'tvk', Telegram:'ttg', YouTube:'tyt'};
+const calEvents = {
+  '1':'Гринвич / TG','2':'Аромат / IG','3':'Гринвич / VK','4':'СпортЛайн / TG',
+  '5':'БиоФрут / YT','8':'Аромат / VK','10':'СпортЛайн / IG','12':'БиоФрут / TG',
+  '14':'СпортЛайн / YT','16':'Аромат / IG','18':'Гринвич / TG','22':'СпортЛайн / IG',
+  '24':'Аромат / VK','26':'Гринвич / YT','28':'СпортЛайн / TG','30':'Аромат / IG'
+};
+const calColors = {'1':'green','5':'orange','12':'orange','26':'orange'};
+
+function badge(cls, label){ return `<span class="badge ${cls}">${label}</span>`; }
+function av(c,l){ return `<span class="av ${c}">${l}</span>`; }
+function toast(msg, err=false){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast on'+(err?' err':'');
+  setTimeout(()=>t.className='toast',3000);
+}
+
+// ─── NAVIGATION ───
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('on');
+  const map={dash:0,clients:1,content:2,newpost:3,calendar:4};
+  document.querySelectorAll('.nav-btn')[map[id]].classList.add('active');
+  if(id==='dash')    renderDash();
+  if(id==='clients') renderClients();
+  if(id==='content') renderKanban();
+  if(id==='calendar')renderCalendar();
+  if(id==='newpost') initForm();
+}
+
+// ─── DASHBOARD ───
+function renderDash(){
+  // stats
+  document.getElementById('stat-clients').textContent = clients.filter(c=>c.status==='Активен').length;
+  document.getElementById('stat-posts').textContent   = posts.length;
+  document.getElementById('stat-review').textContent  = posts.filter(p=>p.status==='review').length;
+  document.getElementById('stat-pub').textContent     = posts.filter(p=>p.status==='pub').length;
+
+  // recent posts
+  const tbody = document.getElementById('dash-posts');
+  const recent = [...posts].sort((a,b)=>a.id-b.id).slice(0,5);
+  tbody.innerHTML = recent.map(p=>`
+    <tr>
+      <td>${p.client}</td>
+      <td><span class="ktag ${platformTag[p.platform]||'tig'}">${p.platform}</span></td>
+      <td>${p.title}</td>
+      <td>${p.date}</td>
+      <td>${badge(statusBadge[p.status], statusLabel[p.status])}</td>
+    </tr>`).join('');
+
+  // clients
+  const cbody = document.getElementById('dash-clients');
+  cbody.innerHTML = clients.map(c=>`
+    <tr>
+      <td class="flex-c">${av(c.av,c.letter)} ${c.name}</td>
+      <td>${c.mgr}</td>
+      <td>${posts.filter(p=>p.client===c.name).length}</td>
+      <td>${badge(c.status==='Активен'?'b-active':c.status==='Пауза'?'b-pause':'b-new', c.status)}</td>
+    </tr>`).join('');
+}
+
+// ─── CLIENTS ───
+function renderClients(filter='', statusFilter=''){
+  const tbody = document.getElementById('clients-body');
+  const filtered = clients.filter(c=>
+    c.name.toLowerCase().includes(filter.toLowerCase()) &&
+    (!statusFilter || c.status===statusFilter)
+  );
+  tbody.innerHTML = filtered.map(c=>`
+    <tr>
+      <td class="flex-c">${av(c.av,c.letter)} ${c.name}</td>
+      <td>${c.email}</td>
+      <td>${c.mgr}</td>
+      <td>${c.platforms}</td>
+      <td>${c.budget}</td>
+      <td>${badge(c.status==='Активен'?'b-active':c.status==='Пауза'?'b-pause':'b-new', c.status)}</td>
+      <td><button class="btn btn-o btn-sm" onclick="go('content')">Посты</button></td>
+    </tr>`).join('');
+}
+function filterClients(v){ renderClients(v, document.querySelector('#p-clients select').value); }
+function filterClientsStatus(v){ renderClients(document.getElementById('cl-search').value, v); }
+
+function saveClient(){
+  const name = document.getElementById('nc-name').value.trim();
+  if(!name){ toast('Введите название компании', true); return; }
+  const letter = name[0].toUpperCase();
+  const avCls  = avColors[clients.length % avColors.length];
+  clients.push({
+    id: Date.now(), name, letter, av: avCls,
+    email:  document.getElementById('nc-email').value||'—',
+    mgr:    document.getElementById('nc-mgr').value,
+    platforms: document.getElementById('nc-pl').value||'—',
+    budget: (parseInt(document.getElementById('nc-budget').value)||0).toLocaleString('ru')+ ' ₽',
+    status: 'Новый'
+  });
+  hideOverlay('ov-client');
+  renderClients();
+  updateClientSelect();
+  toast('✓ Клиент добавлен');
+}
+
+// ─── KANBAN ───
+let kanbanClientFilter = '';
+let kanbanPlatformFilter = '';
+
+function filterKanban(type, val){
+  if(type==='client') kanbanClientFilter=val;
+  if(type==='platform') kanbanPlatformFilter=val;
+  renderKanban();
+}
+
+function renderKanban(){
+  // populate client filter
+  const sel = document.getElementById('kf-client');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">Все клиенты</option>' +
+    clients.map(c=>`<option ${c.name===cur?'selected':''}>${c.name}</option>`).join('');
+
+  const filtered = posts.filter(p=>
+    (!kanbanClientFilter || p.client===kanbanClientFilter) &&
+    (!kanbanPlatformFilter || p.platform===kanbanPlatformFilter)
+  );
+
+  const cols = {draft:[], review:[], sched:[], pub:[]};
+  filtered.forEach(p=>{ if(cols[p.status]) cols[p.status].push(p); });
+
+  Object.entries(cols).forEach(([status, list])=>{
+    document.getElementById('k-cnt-'+status).textContent = list.length;
+    document.getElementById('k-'+status).innerHTML = list.map(p=>`
+      <div class="kcard">
+        <div class="kcardtitle">${p.title}</div>
+        <div class="kcardmeta">${p.client} · ${p.date}</div>
+        <span class="ktag ${platformTag[p.platform]||'tig'}">${p.platform}</span>
+        <div class="kcard-actions">
+          <button class="btn btn-o btn-sm" onclick="openStatusChange(${p.id})">Статус</button>
+          <button class="btn btn-r btn-sm" onclick="deletePost(${p.id})">Удалить</button>
+        </div>
+      </div>`).join('');
+  });
+}
+
+function openStatusChange(id){
+  editingPostId = id;
+  const post = posts.find(p=>p.id===id);
+  document.getElementById('new-status').value = post.status;
+  showOverlay('ov-status');
+}
+
+function applyStatus(){
+  const newSt = document.getElementById('new-status').value;
+  const post = posts.find(p=>p.id===editingPostId);
+  if(post){ post.status = newSt; }
+  hideOverlay('ov-status');
+  renderKanban();
+  renderDash();
+  toast('✓ Статус обновлён');
+}
+
+function deletePost(id){
+  posts = posts.filter(p=>p.id!==id);
+  renderKanban();
+  renderDash();
+  toast('Пост удалён');
+}
+
+// ─── NEW POST FORM ───
+function initForm(){
+  formStep = 1;
+  document.getElementById('form-step1').style.display='block';
+  document.getElementById('form-step2').style.display='none';
+  document.getElementById('form-success').style.display='none';
+  document.getElementById('st1').className='step active';
+  document.getElementById('st2').className='step';
+  document.getElementById('st3').className='step';
+  updateClientSelect();
+  // set default date to today
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('f-date').value = today;
+}
+
+function updateClientSelect(){
+  const sel = document.getElementById('f-client');
+  sel.innerHTML = '<option value="">— выберите клиента —</option>' +
+    clients.map(c=>`<option>${c.name}</option>`).join('');
+}
+
+function nextStep(){
+  const client   = document.getElementById('f-client').value;
+  const platform = document.getElementById('f-platform').value;
+  const title    = document.getElementById('f-title').value.trim();
+  const date     = document.getElementById('f-date').value;
+  if(!client)   { toast('Выберите клиента', true); return; }
+  if(!platform) { toast('Выберите площадку', true); return; }
+  if(!title)    { toast('Введите тему поста', true); return; }
+  if(!date)     { toast('Укажите дату', true); return; }
+  formStep = 2;
+  document.getElementById('form-step1').style.display='none';
+  document.getElementById('form-step2').style.display='block';
+  document.getElementById('st1').className='step done';
+  document.getElementById('st2').className='step active';
+}
+
+function prevStep(){
+  formStep = 1;
+  document.getElementById('form-step1').style.display='block';
+  document.getElementById('form-step2').style.display='none';
+  document.getElementById('st1').className='step active';
+  document.getElementById('st2').className='step';
+}
+
+function submitPost(){
+  const d = document.getElementById('f-date').value;
+  const [y,m,day] = d.split('-');
+  posts.push({
+    id: Date.now(),
+    client:   document.getElementById('f-client').value,
+    platform: document.getElementById('f-platform').value,
+    title:    document.getElementById('f-title').value.trim(),
+    date:     `${day}.${m}.${y}`,
+    status:   'draft',
+    smm:      document.getElementById('f-smm').value,
+  });
+  document.getElementById('form-step2').style.display='none';
+  document.getElementById('st2').className='step done';
+  document.getElementById('st3').className='step done';
+  document.getElementById('form-success').style.display='block';
+  toast('✓ Пост добавлен в контент-план');
+  renderDash();
+}
+
+// ─── CALENDAR ───
+function renderCalendar(){
+  const days = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+  let html = days.map(d=>`<div style="text-align:center;font-size:11px;font-weight:700;color:#999;padding:4px 0;">${d}</div>`).join('');
+  // April 2025 starts on Tuesday (offset 1)
+  html += `<div style="min-height:70px;border-radius:8px;background:#fafafa;border:1px solid #eee;"></div>`; // Mon empty
+  for(let i=1;i<=30;i++){
+    const isToday = i===1;
+    const ev = calEvents[String(i)];
+    const evColor = calColors[String(i)]||'';
+    // also check new posts
+    const newEv = posts.filter(p=>{
+      const day = parseInt(p.date.split('.')[0]);
+      return day===i && p.status!=='pub';
+    });
+    html += `<div style="min-height:70px;border-radius:8px;border:1px solid ${isToday?'#7c9ef8':'#eee'};background:${isToday?'#f0f4ff':'#fff'};padding:6px 8px;font-size:11px;">
+      <div style="font-weight:700;font-size:12px;margin-bottom:4px;${isToday?'color:#7c9ef8':''}">${i}</div>
+      ${ev?`<div style="background:${evColor==='green'?'#27ae60':evColor==='orange'?'#e67e22':'#7c9ef8'};color:#fff;border-radius:4px;padding:2px 5px;font-size:10px;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${ev}</div>`:''}
+      ${newEv.map(p=>`<div style="background:#e8f0fd;color:#2355b8;border-radius:4px;padding:2px 5px;font-size:10px;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.client.split(' ')[0]}</div>`).join('')}
+    </div>`;
+  }
+  // fill remaining cells to complete 6 rows = 42 cells. Used: 1 offset + 30 days = 31 cells
+  for(let i=1;i<=11;i++){
+    html+=`<div style="min-height:70px;border-radius:8px;background:#fafafa;border:1px solid #eee;padding:6px 8px;font-size:11px;color:#ccc;"><div style="font-weight:700;font-size:12px;margin-bottom:4px;">${i}</div></div>`;
+  }
+  document.getElementById('cal-grid').innerHTML = html;
+}
+
+// ─── OVERLAYS ───
+function showOverlay(id){ document.getElementById(id).classList.add('on'); }
+function hideOverlay(id){ document.getElementById(id).classList.remove('on'); }
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('on'); }));
+
+// ─── INIT ───
+renderDash();
+</script>
+</body>
+</html>
